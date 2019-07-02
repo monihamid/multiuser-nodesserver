@@ -20,7 +20,7 @@ const pg  = require('pg');
         directory: __dirname + '/database/migrations'
       },
       seeds: {
-        directory: __dirname + '/database/seeds/development'
+        directory: __dirname + '/database/seeds'
       }
     },
     logger: {

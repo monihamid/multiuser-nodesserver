@@ -1,8 +1,10 @@
 exports.up = function(knex, Promise){
 //return Promise.all([
-return knex.schema.createTable('Users', function(table) {
-  knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'),
-  knex.schema.createTable('Users', function (table) {
+//knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
+ knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+//return knex.schema.createTable('Users', function(table) {
+//knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'),
+  return knex.schema.createTable('Users', function (table) {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('email').notNullable();
       table.string('firstName');
@@ -16,9 +18,9 @@ return knex.schema.createTable('Users', function(table) {
       table.timestamp('createdAt').notNullable().defaultTo(knex.fn.now());
       table.timestamp('modifiedAt').notNullable().defaultTo(knex.fn.now());
       table.string('createdBy');
-      table.string('modifiedBy');
+      table.string('modifiedBy')
     })
-  })
+
 
 //])
 
@@ -26,8 +28,23 @@ return knex.schema.createTable('Users', function(table) {
 
 exports.down = function (knex, Promise) {
   //return Promise.all([
-  return knex.schema.table('Users', function(table) {
-  knex.raw('DROP TABLE IF EXISTS public."Users" CASCADE')
-})
+//   return knex.schema.table('Users', function(table) {
+//   //knex.raw('DROP TABLE IF EXISTS public."Users" CASCADE')
+// })
+  //])
+
+  knex.schema.raw('DROP TABLE IF EXISTS public."Users" CASCADE')
   //])
 }
+
+// if multiple tables
+// exports.up = function(knex, Promise) {
+//     return Promise.all([
+//         knex.schema.createTable('members', function (t) {
+//             t.increments('id').primary();
+//         }),
+//         knex.schema.createTable('table2', function (t) {
+//             t.increments('id').primary();
+//         })
+//     ]);
+// };
