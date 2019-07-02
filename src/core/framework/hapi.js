@@ -3,6 +3,7 @@ const Inert = require('inert')
 const Vision = require('vision')
 const fs = require('fs')
 const {config} = require( '../config')
+const {NODE_ENV} = require('../config')
 const routesFolder = __dirname + '../routes';
 
 
@@ -22,6 +23,10 @@ const plugins = [
   },
   //require('hapi-auth-cookie-jwt')
 ];
+
+
+
+//process.setMaxListeners(20);
 const hapi = {
 //export default {
   start: async () => {
