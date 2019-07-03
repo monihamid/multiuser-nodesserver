@@ -17,4 +17,7 @@
 ## database connection and table created
    - npm install aguid pg --save install  
 
-    - not sure if babel/register is helpful 
+    - not sure if babel/register is helpful
+### add swagger
+   - https://akhromieiev.com/tutorials/getting-started-with-swagger-and-hapi/
+   - npm i hapi-swagger inert vision -s 

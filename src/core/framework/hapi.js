@@ -2,48 +2,78 @@ const Hapi = require('hapi')
 const Inert = require('inert')
 const Vision = require('vision')
 const fs = require('fs')
+//const Bell = require('bell');
 const {config} = require( '../config')
 const {NODE_ENV} = require('../config')
-const routesFolder = __dirname + '../routes';
-
+const HapiSwagger = require('hapi-swagger');
+//const routesFolder = __dirname + '../routes';
+const path = require('path')
+const Pack = require('../../../package')
 
 let server;
+//let plugins;
+let defaultRoutes = path.resolve(__dirname, '../routes')
+let authRoutes = path.resolve(__dirname, '../../api/routes')
 
 
-//plugins.push(Inert)
-//plugins.push(Vision)
 const plugins = [
   {
     plugin: require('hapi-api-version'),
     options: {
       validVersions: [1],
       defaultVersion: 1,
-      vendorName: 'ZepPack'
+      vendorName: 'NodeSetUp'
     }
   },
   //require('hapi-auth-cookie-jwt')
 ];
+plugins.push(Inert)
+plugins.push(Vision)
+
+plugins.push({
+  plugin: HapiSwagger,
+      options: {
+        debug: true,
+        host: config.default.hapi.swagger.host,
+        schemes: config.default.hapi.swagger.schemes,
+        info: {
+          'title': 'Node set-up Documentation',
+          'version': Pack.version
+        },
+        // securityDefinitions: {
+        //   jwt: {
+        //     type: 'apiKey',
+        //     name: 'Authorization',
+        //     in: 'header'
+        //   }
+        // },
+        pathPrefixSize: 3
+      }
+})
+
 
 
 
 //process.setMaxListeners(20);
 const hapi = {
 //export default {
-  start: async () => {
-      if (server)
-        return server
-
+  start: async (routeDirs) => {
+      // if (server)
+      //   return server
+        routeDirs = routeDirs || []
+        routeDirs.push(defaultRoutes)
       try {
         let connection = {port:config.default.hapi.port, host: config.default.hapi.host, routes: {cors: {origin: ['*'], credentials: true}}}
         server = new Hapi.Server(connection)
         //server.realm.modifiers.route.prefix = '/api/v1';
 
-        //await server.register(plugins)
+        await server.register(plugins)
+        //await server.register(Bell)  // for authenticate with facebook or...
         //setupAuth(server)
         await server.start()
         //logger.info(`API Server running at: ${server.info.uri}`)
         console.log(`Server is running at ${server.info.uri}`);
-        //createRoutes(server);
+        //createRoutes(server, routeDirs);
         return server
       } catch (e) {
         //logger.error(e);
@@ -52,6 +82,31 @@ const hapi = {
     }
 
   }
+
+  function createRoutes (server, routeDirs) {
+  routeDirs.forEach(route => {
+    let files = fs.readdirSync(route)
+    files.forEach(file => {
+      if (file.indexOf('.js') > -1) {
+        //require(route + '/' + file).default(server)
+        require(route + '/' + file).server
+      }
+    })
+  })
+}
+function setupAuthRoute (server, authRoutes) {
+  server.route({
+    method: 'GET',
+    path: '/.well-known/acme-challenge',
+    handler: function (request, reply) {
+      var req = request.raw.req
+      var res = request.raw.res
+
+      reply.close(false)
+      acme(req, res)
+    }
+  })
+}
 //module.exports.server = server;
 
 

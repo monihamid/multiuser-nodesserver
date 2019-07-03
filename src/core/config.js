@@ -1,6 +1,6 @@
 const jsonMerger = require('json_merger')
-const knex  = require('knex');
-const pg  = require('pg');
+//const knex  = require('knex');
+//const pg  = require('pg');
 
 
  const config = {
@@ -38,14 +38,10 @@ const pg  = require('pg');
        }
      },
 
-
-
     auth: {
       jwtSecret: process.env.JWT_SECRET || 'dkdD9dJS8s*&sJs@@djs8J',
-    },
-    // database: {
-    //   debug: true
-    // },
+    }
+  },
     local: {
     letsencrypt: {
       enabled: false
@@ -59,7 +55,7 @@ const pg  = require('pg');
     },
 
   }
-  }
+  //}
 }
 
 //const environment = process.env.ENVIRONMENT || 'development'

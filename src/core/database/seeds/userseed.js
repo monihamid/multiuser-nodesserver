@@ -11,7 +11,8 @@ exports.seed = function(knex, Promise) {
             // Inserts seed entries
             return knex('Users').insert(Users);
         });
-};
+    //return knex('Users').insert(Users);
+}
 
 //iF multipele seedfile
 
