@@ -1,12 +1,10 @@
 
-exports.up = function(knex, Promise){
-//return Promise.all([
-knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+exports.up = function(knex, Promise) {
+ knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
 
+//knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
 
- return knex.schema.createTable('Users', function(table) {
-
-  //knex.schema.createTable('Users', function (table) {
+   return knex.schema.createTable('Users', function (table) {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
       table.string('email').notNullable()
       table.string('firstName')
@@ -23,23 +21,15 @@ knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
       table.string('modifiedBy')
     })
 
-
-//])
-
 }
 
 exports.down = function(knex, Promise) {
-  //knex.schema.raw('drop extension if exists "uuid-ossp"');
-  //return Promise.all([
- //knex.schema.raw('drop extension if exists "uuid-ossp"');
-  //return knex.schema.raw('DROP TABLE IF EXISTS public."Users" CASCADE')
-  //knex.schema.raw('drop extension if exists "uuid-ossp"');
 
-  //])
+   return knex.schema.dropTable('DROP TABLE IF EXISTS public."Users" CASCADE')
 
-  knex.raw('DROP TABLE IF EXISTS public."Users" CASCADE')
-  //])
 }
+
+
 
 // if multiple tables
 // exports.up = function(knex, Promise) {

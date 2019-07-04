@@ -13,7 +13,7 @@ const jsonMerger = require('json_merger')
         port: process.env.POSTGRES_PORT || 5432,
         user: process.env.POSTGRES_USER || 'postgres',
         host: process.env.POSTGRES_HOST || 'localhost',
-        password: process.env.POSTGRES_PASSWORD || 'postgres'
+        password: process.env.POSTGRES_PASSWORD || 'Goodboy123'         //'postgres'
       },
       migrations: {
         tableName: 'knex_migrations',
