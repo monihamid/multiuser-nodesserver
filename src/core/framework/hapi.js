@@ -6,15 +6,27 @@ const fs = require('fs')
 const {config} = require( '../config')
 const {NODE_ENV} = require('../config')
 const HapiSwagger = require('hapi-swagger');
-//const routesFolder = __dirname + '../routes';
+const routesFolder = __dirname + '../routes';
 const path = require('path')
 const Pack = require('../../../package')
 
 let server;
 //let plugins;
-let defaultRoutes = path.resolve(__dirname, '../routes')
+const defaultRoutes = path.resolve(__dirname, '../routes')
 let authRoutes = path.resolve(__dirname, '../../api/routes')
+const routes = [];
 
+// fs.readdirSync(__dirname)
+//   //.filter(file => file != 'index.js')
+//   .forEach(file => {
+//
+//     routes = routes.concat(require(__dirname, '../routes' +`${file}`))
+//
+//   });
+
+
+
+module.exports = routes;
 
 const plugins = [
   {
@@ -65,15 +77,16 @@ const hapi = {
       try {
         let connection = {port:config.default.hapi.port, host: config.default.hapi.host, routes: {cors: {origin: ['*'], credentials: true}}}
         server = new Hapi.Server(connection)
-        //server.realm.modifiers.route.prefix = '/api/v1';
-
+        server.realm.modifiers.route.prefix = config.default.hapi.prefix   //'/api/v1';
+        //console.log(`Server prefix ${config.default.hapi.prefix}`);
         await server.register(plugins)
         //await server.register(Bell)  // for authenticate with facebook or...
         //setupAuth(server)
         await server.start()
         //logger.info(`API Server running at: ${server.info.uri}`)
         console.log(`Server is running at ${server.info.uri}`);
-        //createRoutes(server, routeDirs);
+        createRoutes(server, routeDirs);
+        //server.route(routes);
         return server
       } catch (e) {
         //logger.error(e);
@@ -88,12 +101,15 @@ const hapi = {
     let files = fs.readdirSync(route)
     files.forEach(file => {
       if (file.indexOf('.js') > -1) {
+        routesFolder.server       //routeFolder is filepaths
         //require(route + '/' + file).default(server)
-        require(route + '/' + file).server
       }
     })
   })
 }
+
+//require('./app/routes')(app, passport).
+
 function setupAuthRoute (server, authRoutes) {
   server.route({
     method: 'GET',
@@ -111,3 +127,4 @@ function setupAuthRoute (server, authRoutes) {
 
 
   module.exports.hapi = hapi;
+  

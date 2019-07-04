@@ -1,6 +1,6 @@
 
 //export default function login (server) => {
-const login = function (server) {
+const routeFile = function (server) {
 //export default (server) => {
   server.route({
       method: 'GET',
@@ -21,7 +21,7 @@ const login = function (server) {
 
 }
 
-module.exports.login = login;
+module.exports.routeFile = routeFile;
 //const config = {
 // var User = function(name, email) {
 //   this.name = name;
