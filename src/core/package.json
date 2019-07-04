@@ -13,6 +13,7 @@
     "aguid": "^2.0.0",
     "babel-runtime": "^6.26.0",
     "bell": "^10.0.0",
+    "bluebird": "^3.5.5",
     "hapi": "^18.1.0",
     "hapi-api-version": "^2.2.0",
     "hapi-swagger": "^10.0.2",
