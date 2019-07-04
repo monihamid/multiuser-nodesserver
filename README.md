@@ -1,5 +1,7 @@
 # Create a new directory nodeJs-setup, and from there:
 
+### path http://localhost:3000/api/v1/documentation
+
     - Run: cd myproject this goes into the created project folder.
     - Run: npm init -y and follow the prompts, this will generate a package.json file for you.
     - add nodemon
@@ -17,4 +19,7 @@
 ## database connection and table created
    - npm install aguid pg --save install  
 
-    - not sure if babel/register is helpful 
+    - not sure if babel/register is helpful
+### add swagger
+   - https://akhromieiev.com/tutorials/getting-started-with-swagger-and-hapi/
+   - npm i hapi-swagger inert vision -s
