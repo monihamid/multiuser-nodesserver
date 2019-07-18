@@ -13,15 +13,15 @@ export default (server) => {
        tags: ['api'],
        description: 'Signs a user out and removes their cookie1'
      },
-      // handler: function (request, handler) {
-      //    return 'Hello World!';
-      //  }
-     handler: (request, handler) => handleRestException(async () => {
+      handler: function (request, handler) {
+          return 'Hello World!';
+        }
+     //handler: (request, handler) => handleRestException(async () => {
        //let {id} = request.auth.credentials
        // Store users current token in db
        //await userstore.updateUserToken(id, null)
        //return handler.response().unstate('access_token')
-     })
+     //})
    })
    server.route({
        method: 'GET',
