@@ -1,4 +1,5 @@
-const Hapi = require('hapi')
+//const Hapi = require('hapi')
+import Hapi from 'hapi'
 const Inert = require('inert')
 const Vision = require('vision')
 const fs = require('fs')
@@ -6,18 +7,22 @@ const fs = require('fs')
 const {config} = require( '../config')
 const {NODE_ENV} = require('../config')
 const HapiSwagger = require('hapi-swagger');
-const routesFolder = __dirname + '../routes';
+//const routesFolder = __dirname + '../routes';
 const path = require('path')
 const Pack = require('../../../package')
+//const routesFolder = __dirname + '../routes/routeFiles';
+//const routeFile = require('../routes/auth');
 
-let server;
+
+export let server
 //let plugins;
-const defaultRoutes = path.resolve(__dirname, '../routes')
+let defaultRoutes = path.resolve(__dirname, '../routes')
 let authRoutes = path.resolve(__dirname, '../../api/routes')
-const routes = [];
+//let routes = [];
+
 
 // fs.readdirSync(__dirname)
-//   //.filter(file => file != 'index.js')
+//   .filter(file => file != 'routeFiles.js')
 //   .forEach(file => {
 //
 //     routes = routes.concat(require(__dirname, '../routes' +`${file}`))
@@ -26,7 +31,7 @@ const routes = [];
 
 
 
-module.exports = routes;
+//module.exports = routes;
 
 const plugins = [
   {
@@ -61,14 +66,16 @@ plugins.push({
         // },
         pathPrefixSize: 3
       }
+      // plugins.push(Inert)
+      // plugins.push(Vision)
 })
 
 
 
 
 //process.setMaxListeners(20);
-const hapi = {
-//export default {
+//const hapiServer = {
+export default {
   start: async (routeDirs) => {
       // if (server)
       //   return server
@@ -85,8 +92,9 @@ const hapi = {
         await server.start()
         //logger.info(`API Server running at: ${server.info.uri}`)
         console.log(`Server is running at ${server.info.uri}`);
-        createRoutes(server, routeDirs);
-        //server.route(routes);
+        createRoutes(server, routeDirs)
+        //console.log(createRoutes(server, routeDirs))
+        //server.route(routeFile.server);
         return server
       } catch (e) {
         //logger.error(e);
@@ -95,14 +103,15 @@ const hapi = {
     }
 
   }
+//module.exports.server  = server;
+  //module.exports.hapiServer = hapiServer;
 
   function createRoutes (server, routeDirs) {
   routeDirs.forEach(route => {
     let files = fs.readdirSync(route)
     files.forEach(file => {
       if (file.indexOf('.js') > -1) {
-        routesFolder.server       //routeFolder is filepaths
-        //require(route + '/' + file).default(server)
+        require(route + '/' + file).default(server)
       }
     })
   })
@@ -124,7 +133,3 @@ function setupAuthRoute (server, authRoutes) {
   })
 }
 //module.exports.server = server;
-
-
-  module.exports.hapi = hapi;
-  
