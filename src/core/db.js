@@ -1,5 +1,5 @@
 const knex = require ('knex')
-const {NODE_ENV} = require('./config')
+//onst {NODE_ENV} = require('./config')
 const pg  = require('pg');
 const {config} = require ('./config')
 

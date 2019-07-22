@@ -1,90 +1,60 @@
 const Joi  = require('joi')
-
+import userstore from '../datastore/userstore'
+import helperfunctions from '../helperfunctions/login'
 
 export default (server) => {
  server.route({
-     method: 'GET',
-     path: '/books',
+     method: 'POST',
+     path: '/login',
      config: {
        tags: ['api'],
-       description: 'Signs a user out and removes their cookie3'
+       validate: {
+        payload: {
+          email: Joi.string().email(),
+          password: Joi.string().required(),
+          rememberMe: Joi.boolean()
+        },
+        //failAction
+      },
+       description: 'Signs a user to Multiuser server'
      },
-      handler: function (request, handler) {
-         return 'Hello World!';
+      handler: async (request, handler) => {
+
+        const {email, password, rememberMe} = request.payload
+        const user = await userstore.getByUserEmail(email);
+        //console.log(user)
+        // if (!username || !password) {
+        // return internals.renderHtml.login('Missing username or password');
+        //
+        // }
+        if (!user) {
+        return 'No user found'
        }
-     //handler: (request, handler) => handleRestException(async () => {
-       //let {id} = request.auth.credentials
-       // Store users current token in db
-       //await userstore.updateUserToken(id, null)
-       //return handler.response().unstate('access_token')
-     //})
-   });
+       else if ((password === user.password) && (email === user.email)) {
+         return 'login successfull'
+       } else {
+         return 'Invalid Credential'
+       }
 
-   server.route({
-       method: 'GET',
-       path: '/test',
-       config: {
-         tags: ['api'],
-         description: 'Signs a user out and removes their cookie2'
-       },
-        handler: function (request, handler) {
-           return 'Hello Test!';
-         }
-       //handler: (request, handler) => handleRestException(async () => {
-         //let {id} = request.auth.credentials
-         // Store users current token in db
-         //await userstore.updateUserToken(id, null)
-         //return handler.response().unstate('access_token')
-       //})
-     })
+       try {
+
+         //await helperfunctions.varifyUser(email, password, user)
+         //return 'log in successfull'
+        //let token = await authenticateUser(user, password, rememberMe)
+        //return handler.response().state('access_token', token)
+
+      } catch (e) {
+        // if (e instanceof InvalidCredentialsException) {
+        //   return 'unauthorized'
+        // } else {
+        //   //logger.error(e)
+        //   throw e
+        // }
+      }
+
+       }
+
+   })
+
+
  }
-
-
-// export default (server) => {
-//  server.route({
-//    method: 'GET',
-//        path: '/books',
-//        config: {
-//          tags: ['api'],
-//          description: 'Signs a user out and removes their cookie'
-//        },
-//        handler: function (request, handler) {
-//           return 'Books';
-//         }
-//
-// });
-//
-// server.route({
-//     method: 'GET',
-//     path: '/auth/logoutnew',
-//     config: {
-//       tags: ['api'],
-//       description: 'Signs a user out and removes their cookie'
-//     },
-//      handler: function (request, handler) {
-//         return 'Hello World!';
-//       }
-//     //handler: (request, handler) => handleRestException(async () => {
-//       //let {id} = request.auth.credentials
-//       // Store users current token in db
-//       //await userstore.updateUserToken(id, null)
-//       //return handler.response().unstate('access_token')
-//     //})
-//   })
-// }
-
-// module.exports = function (server) {
-// server.route({
-//     method: 'GET',
-//     path: '/books',
-//     options: {
-//     	description: 'Get books list',
-//         notes: 'Returns an array of books',
-//         tags: ['api'],
-//         handler: async (request, h) => {
-//             const books = await readFile('./books.json', 'utf8');
-//             return h.response(JSON.parse(books));
-//         }
-//     }
-// });
-// }
