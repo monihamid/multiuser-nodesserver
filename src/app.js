@@ -1,4 +1,6 @@
-const {hapi} = require('./core/framework/hapi')
+//const {hapi} = require('./core/framework/hapi')
+import hapi from './core/framework/hapi'
+//const {hapiServer} = require('./core/framework/hapi')
 const {config} = require('./core/config');
 const {db} = require('./core/db')
 const {NODE_ENV} = require ('./core/config');
@@ -22,6 +24,7 @@ process.argv.forEach(function (val, index, array) {
           db.seed.run();
   })
   await hapi.start(combineApps.map(app => path.resolve(__dirname, `./apps/${app}/src/routes`)))
+  //await hapi.start()
   console.log(`Starting server`)
 })()
 
