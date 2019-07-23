@@ -1,6 +1,6 @@
 const jsonMerger = require('json_merger')
-const knex  = require('knex');
-const pg  = require('pg');
+//const knex  = require('knex');
+//const pg  = require('pg');
 
 
  const config = {
@@ -13,7 +13,7 @@ const pg  = require('pg');
         port: process.env.POSTGRES_PORT || 5432,
         user: process.env.POSTGRES_USER || 'postgres',
         host: process.env.POSTGRES_HOST || 'localhost',
-        password: process.env.POSTGRES_PASSWORD || 'postgres'
+        password: process.env.POSTGRES_PASSWORD || 'postgres'         //'postgres'
       },
       migrations: {
         tableName: 'knex_migrations',
@@ -38,14 +38,10 @@ const pg  = require('pg');
        }
      },
 
-
-
     auth: {
       jwtSecret: process.env.JWT_SECRET || 'dkdD9dJS8s*&sJs@@djs8J',
-    },
-    // database: {
-    //   debug: true
-    // },
+    }
+  },
     local: {
     letsencrypt: {
       enabled: false
@@ -54,12 +50,12 @@ const pg  = require('pg');
       debug: false
     },
     label: {
-      host: 'http://localhost:4000/api/v1'
+      host: 'http://localhost:3000/api/v1'
       // host: 'http://192.1.2.179:4000/api/v1'
     },
 
   }
-  }
+  //}
 }
 
 //const environment = process.env.ENVIRONMENT || 'development'

@@ -1,11 +1,8 @@
 const knex = require ('knex')
-const {NODE_ENV} = require('./config')
+//onst {NODE_ENV} = require('./config')
 const pg  = require('pg');
 const {config} = require ('./config')
-//const knex = require('knex')('config.client')
-//const database = require ('./config')
-//config.default.hapi.port
-let conn = pg;
+
 //console.log(config)
 let db = knex(config.default.database)
 //let db = knex(config.database)
