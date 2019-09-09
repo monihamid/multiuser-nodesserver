@@ -10,14 +10,16 @@ const HapiSwagger = require('hapi-swagger');
 //const routesFolder = __dirname + '../routes';
 const path = require('path')
 const Pack = require('../../../package')
+import {setupAuth} from './setauth'
 //const routesFolder = __dirname + '../routes/routeFiles';
 //const routeFile = require('../routes/auth');
 
 
 export let server
 //let plugins;
-let defaultRoutes = path.resolve(__dirname, '../routes')
-let authRoutes = path.resolve(__dirname, '../../api/routes')
+//let defaultRoutes = path.resolve(__dirname, '../routes')
+//let defaultRoutes = path.resolve(__dirname, '../../api/routes')
+let routes = path.resolve(__dirname, '../../api/routes')
 //let routes = [];
 
 
@@ -42,6 +44,8 @@ const plugins = [
       vendorName: 'NodeSetUp'
     }
   },
+  require('hapi-auth-jwt2'),
+  //require('hapi-auth-cookie')
   //require('hapi-auth-cookie-jwt')
 ];
 plugins.push(Inert)
@@ -57,13 +61,13 @@ plugins.push({
           'title': 'Node set-up Documentation',
           'version': Pack.version
         },
-        // securityDefinitions: {
-        //   jwt: {
-        //     type: 'apiKey',
-        //     name: 'Authorization',
-        //     in: 'header'
-        //   }
-        // },
+        securityDefinitions: {
+          jwt: {
+            type: 'apiKey',
+            name: 'Authorization',
+            in: 'header'
+          }
+        },
         pathPrefixSize: 3
       }
       // plugins.push(Inert)
@@ -80,7 +84,7 @@ export default {
       // if (server)
       //   return server
         routeDirs = routeDirs || []
-        routeDirs.push(defaultRoutes)
+        routeDirs.push(routes)
       try {
         let connection = {port:config.default.hapi.port, host: config.default.hapi.host, routes: {cors: {origin: ['*'], credentials: true}}}
         server = new Hapi.Server(connection)
@@ -88,7 +92,7 @@ export default {
         //console.log(`Server prefix ${config.default.hapi.prefix}`);
         await server.register(plugins)
         //await server.register(Bell)  // for authenticate with facebook or...
-        //setupAuth(server)
+        setupAuth(server)
         await server.start()
         //logger.info(`API Server running at: ${server.info.uri}`)
         console.log(`Server is running at ${server.info.uri}`);

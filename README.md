@@ -17,14 +17,16 @@
     - add config.js file inside core folder
     - ES6  npm install -D babel-cli babel-preset-es2015
     - add package.json "build": "babel --presets es2015 ./src -d ./dist",
-## database connection and table created
+## database connection and table creation
     - npm install aguid pg --save install  
 
     - need babel/register for implement ES6
     - "build": "babel --presets es2015 ./src -d ./dist",
     - https://dev.to/dhruv/writing-es6-in-your-nodejs-applications-33jk
 
-    
+
 ### add swagger
    - https://akhromieiev.com/tutorials/getting-started-with-swagger-and-hapi/
    - npm i hapi-swagger inert vision -s
+### add auth
+   - npm install --save hapi-auth-jwt2 aguid  inside src folder

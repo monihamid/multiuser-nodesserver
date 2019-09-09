@@ -23,8 +23,8 @@ process.argv.forEach(function (val, index, array) {
           console.log(`Running seeds`)
           db.seed.run();
   })
-  await hapi.start(combineApps.map(app => path.resolve(__dirname, `./apps/${app}/src/routes`)))
-  //await hapi.start()
+  //await hapi.start(combineApps.map(app => path.resolve(__dirname, `./apps/${app}/src/routes`)))
+  await hapi.start()
   console.log(`Starting server`)
 })()
 

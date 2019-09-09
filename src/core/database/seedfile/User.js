@@ -6,7 +6,7 @@ module.exports = [
         firstName: 'Monira',
         lastName: 'Sultana',
         username: 'msultana',
-        password: 'admin' // admin
+        password: '$2a$08$4l8ZT.Ql3HbYK29MZOOQTOnKoY2ESzm/rdZHt2Q5OBkl7qLBoNta2' // admin
     },
     {
         id: "a1ef748d-d4dc-4523-b9d2-a8e16b64f3f2",
@@ -15,6 +15,6 @@ module.exports = [
         firstName: 'Monira1',
         lastName: 'Sultana1',
         username: 'msultana1',
-        password: 'admin' // admin
+        password: '$2a$08$4l8ZT.Ql3HbYK29MZOOQTOnKoY2ESzm/rdZHt2Q5OBkl7qLBoNta2' // admin
     }
   ]

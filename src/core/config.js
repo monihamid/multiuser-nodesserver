@@ -39,7 +39,7 @@ const jsonMerger = require('json_merger')
      },
 
     auth: {
-      jwtSecret: process.env.JWT_SECRET || 'dkdD9dJS8s*&sJs@@djs8J',
+      jwtSecret: process.env.JWT_SECRET || 'MySecret',
     }
   },
     local: {
