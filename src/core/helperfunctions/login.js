@@ -1,4 +1,5 @@
 import userstore from '../datastore/userstore'
+import bcrypt from 'bcrypt-nodejs'
 
 //import bcrypt from 'bcrypt-nodejs';
 //import {getDefaultError} from 'zep-core/error/defaultError'
@@ -53,4 +54,9 @@ export async function login ({email, password}) {
         'user': updatedUser[0],
         //'accessParams': base64
     }
+}
+
+
+export function saltedPassword (password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 }
