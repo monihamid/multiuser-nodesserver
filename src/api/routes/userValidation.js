@@ -103,12 +103,12 @@ export default (server) => {
   method: 'POST',
   path: '/user/add',
   config: {
-    auth: 
-    {
-      access: {
-    scope: ['admin']
-      }
-      },
+    auth: false,
+    // {
+    //   access: {
+    // scope: ['admin']
+    //   }
+    //   },
 
     tags: ['api'],
     validate: {
