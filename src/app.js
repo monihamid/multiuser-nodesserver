@@ -18,14 +18,19 @@ process.argv.forEach(function (val, index, array) {
 
 (async () => {
 
-  await db.migrate.latest([config.default.database])
-      .then(function() {
-          console.log(`Running seeds`)
-          db.seed.run();
-  })
+  // await db.migrate.latest([config.default.database])
+  //     .then(function() {
+  //         console.log(`Running seeds`)
+  //         db.seed.run();
+  // })
   //await hapi.start(combineApps.map(app => path.resolve(__dirname, `./apps/${app}/src/routes`)))
   await hapi.start()
   console.log(`Starting server`)
+
+  process.on('unhandledRejection', (err) => {
+        console.log(err);
+        process.exit(1);
+    })
 })()
 
 

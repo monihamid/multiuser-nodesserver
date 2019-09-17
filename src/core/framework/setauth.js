@@ -13,10 +13,16 @@ const validate = async function (decoded, request) {
       return { isValid: false }
     }
     else {
+      if (Math.floor(new Date().getTime() / 1000) < credentials.exp) {
 
-      //you can add expire time here
-      return { isValid: true }
-    }
+          return {
+              isValid: true
+          }
+      }
+      return {
+          isValid: false
+      }
+  }
 }
 
 export function setupAuth (server) {
@@ -27,7 +33,7 @@ server.auth.strategy('jwt', 'jwt',             //'jwt-cookie',
     verifyOptions: {algorithms: ['HS256']} // pick a strong algorithm
     })
   server.state('access_token', {
-  ttl: null,
+  ttl: null,         //24 * 60 * 60 * 1000,            //null,
   isSecure: false,
   isHttpOnly: false,
   clearInvalid: true, // remove invalid cookies
@@ -64,6 +70,7 @@ export function generateToken (user, exp) {
 // }
 
 export function generateUserToken (user, exp) {
+  //exp = (Math.floor(new Date().getTime()) + exp) / 1000
   let jwt = generateToken(user, exp)
   return jwt.token
 }

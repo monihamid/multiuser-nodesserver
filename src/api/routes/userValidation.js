@@ -26,17 +26,10 @@ export default (server) => {
        description: 'Signs a user to Multiuser server'
      },
       handler: async (request, handler) => {
-
+        
         let {email, password, rememberMe} = request.payload
         email= email.toLowerCase()
-       //  const user = await userstore.getByUserEmail(email);
-       //
-       //  if (!user) {
-       //  return Boom.unauthorized('User name/email does not exist')
-       // }
-       // let {authToken, updatedUser} = await authenticateUser(user, password, rememberMe);
-       //   //console.log(authToken)
-       //    console.log(updatedUser)
+
        try {
          const user = await userstore.getByUserEmail(email);
 
@@ -44,9 +37,9 @@ export default (server) => {
          return Boom.unauthorized('User name/email does not exist')
        } else {
          let {authToken, updatedUser} = await authenticateUser(user, password, rememberMe);
-           //console.log(authToken)
+           console.log(authToken)
             //console.log(updatedUser)
-         console.log('try block')
+         //console.log('try block')
         //state need one object so,authToken.token has only token but authToken has sid: token: so
         //Error: Invalid cookie value: [object Object]
         return handler.response({authToken, updatedUser}).state('access_token', authToken)
@@ -56,18 +49,134 @@ export default (server) => {
 
           return Boom.unauthorized('password does not match')
         //console.log('error block')
-
       }else {
         // catch database connection fail or datatable doesnot exist error
         console.log(`Log:${e}`)
-        return Boom.unauthorized('unknown error occour')
-
+        return Boom.clientTimeout(`${e}`)
       }
     }
-
        }
-
    })
+//not working
+   server.route({
+       method: 'GET',
+       path: '/logout/{id}',
+       config: {
+         auth: {
+          //  strategy: {
+          //  scope: ['admin']
+          //      }
+         
+         },
+
+         tags: ['api'],
+         validate: {
+           params: {
+           userId: Joi.string().required()
+                 },
+          failAction: (request, handler, err) => {
+                  throw err;
+                  return;
+        }
+        },
+         description: 'Signs a user out and removes their cookie'
+       },
+       handler: async (request, handler) => {
+         //let userId = request.params.id
+         let { id } = request.auth.credentials
+         let userInfo = request.params.id
+           // Remove users current token in db
+           try {
+             const update = await userstore.removeUserToken(userInfo, null)
+             //console.log(update)
+             return handler.response('logout successfull')
+           } catch (e) {
+             console.log(`Log:${e}`)
+             return Boom.clientTimeout(`${e}`)
+             }
+
+           //return handler.response().unstate('access_token')
+         }
+     })
+
+  server.route({
+  method: 'POST',
+  path: '/user/add',
+  config: {
+    auth: 
+    {
+      access: {
+    scope: ['admin']
+      }
+      },
+
+    tags: ['api'],
+    validate: {
+      
+    payload: {
+          email: Joi.string().required(),
+          firstName: Joi.string(),
+          lastName: Joi.string(),
+          username: Joi.string(),
+          password: Joi.string().required(),
+          scope: Joi.any().required()
+    },
+    failAction: (request, handler, err) => {
+      console.log('========')
+      console.log(request.auth)
+      throw err;
+            
+            return;
+  }
+  },
+    description: 'Adds a new user in the system'
+  },
+  handler: async (request, handler) => {
+  //   if (!request.auth.isAuthenticated) {
+  //     return `Authentication failed due to: ${request.auth}`;
+  //     console.log('========')
+  //   console.log(request.auth)
+  // }
+          let {email, firstName, lastName, username, password, scope} = request.payload
+          email= email.toLowerCase()
+     
+    try {
+      
+      let existUser = await userstore.getByUserEmail(email)
+      if (existUser) {
+        return Boom.notAcceptable('User alreay exist')
+      } else {
+        request.payload.createdBy = 'admin@admin.com'          //request.auth.credentials.id
+        let user = await userstore.createUser(request.payload)
+        return handler.response( 'new user created')
+   }
+   } catch (e) {
+    
+     // catch database connection fail or datatable doesnot exist error
+     console.log(`Log:${e}`)
+     return Boom.clientTimeout(`${e}`)
+   
+ }
+  }
+})
 
 
  }
+//https://www.npmjs.com/package/boom
+
+// config: {
+//   auth: false,
+//   tags: ['api'],
+//   validate: {
+//    payload: {
+//      email: Joi.string().email(),
+//      password: Joi.string().required(),
+//      rememberMe: Joi.boolean()
+//    },
+//    failAction: (request, handler, err) => {
+//            throw err;
+//            return;
+//  }
+//  },
+//   description: 'Signs a user to Multiuser server'
+// },

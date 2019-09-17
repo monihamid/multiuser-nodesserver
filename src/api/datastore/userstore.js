@@ -1,5 +1,6 @@
 //import db from '../db'
 const {db} = require ('../../core/db')
+import {saltedPassword, convertScopeToJSON} from '../helperfunctions/convertor'
 
 export default {
   getByUserEmail:(email) => {
@@ -16,6 +17,20 @@ export default {
   },
   updateUserToken: (id, authToken) => {
   return db('Users').where({ id }).update({authToken}).returning('*')
-}
+},
+removeUserToken: (id, authToken) => {
+return db('Users').where({id}).update({authToken}).returning('*')
+},
+createUser: async ({email, firstName, lastName, username, password, scope, createdBy}) => {
+  /** createdBy is reserved for future use */
+  if (scope === undefined || scope === '') {
+    return 'Error: scope is required.'
+  }
+  email = email.toLowerCase()
+  scope =  await convertScopeToJSON(scope)
+  password = await saltedPassword(password)
+  return db('Users').insert({email, firstName, lastName, username, password, scope, createdBy}).returning('id')
+},
+
 
 }

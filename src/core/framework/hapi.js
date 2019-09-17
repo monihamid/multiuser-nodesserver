@@ -7,7 +7,7 @@ const fs = require('fs')
 const {config} = require( '../config')
 const {NODE_ENV} = require('../config')
 const HapiSwagger = require('hapi-swagger');
-//const routesFolder = __dirname + '../routes';
+//const routesFolder = '../../api/routes');
 const path = require('path')
 const Pack = require('../../../package')
 import {setupAuth} from './setauth'
@@ -18,8 +18,8 @@ import {setupAuth} from './setauth'
 export let server
 //let plugins;
 //let defaultRoutes = path.resolve(__dirname, '../routes')
+let defaultRoutes = path.resolve(__dirname, '../../api/routes')
 //let defaultRoutes = path.resolve(__dirname, '../../api/routes')
-let routes = path.resolve(__dirname, '../../api/routes')
 //let routes = [];
 
 
@@ -45,11 +45,13 @@ const plugins = [
     }
   },
   require('hapi-auth-jwt2'),
+  //require('hapi-auth-cookie-jwt'),
   //require('hapi-auth-cookie')
-  //require('hapi-auth-cookie-jwt')
+  
 ];
 plugins.push(Inert)
 plugins.push(Vision)
+plugins.push(require('bell'))
 
 plugins.push({
   plugin: HapiSwagger,
@@ -58,7 +60,7 @@ plugins.push({
         host: config.default.hapi.swagger.host,
         schemes: config.default.hapi.swagger.schemes,
         info: {
-          'title': 'Node set-up Documentation',
+          'title': 'MultiUser Server Documentation',
           'version': Pack.version
         },
         securityDefinitions: {
@@ -70,10 +72,11 @@ plugins.push({
         },
         pathPrefixSize: 3
       }
+      
       // plugins.push(Inert)
       // plugins.push(Vision)
 })
-
+//plugins.push(require('bell'))
 
 
 
@@ -84,7 +87,7 @@ export default {
       // if (server)
       //   return server
         routeDirs = routeDirs || []
-        routeDirs.push(routes)
+        routeDirs.push(defaultRoutes)
       try {
         let connection = {port:config.default.hapi.port, host: config.default.hapi.host, routes: {cors: {origin: ['*'], credentials: true}}}
         server = new Hapi.Server(connection)
@@ -137,3 +140,5 @@ function setupAuthRoute (server, authRoutes) {
   })
 }
 //module.exports.server = server;
+
+//https://auth0.com/blog/hapijs-authentication-secure-your-api-with-json-web-tokens/

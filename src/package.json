@@ -14,6 +14,7 @@
     "@hapi/boom": "^7.4.2",
     "aguid": "^2.0.0",
     "bcrypt-nodejs": "0.0.3",
+    "hapi-auth-cookie-jwt": "^3.0.1",
     "hapi-auth-jwt2": "^8.6.1",
     "joi": "^14.3.1",
     "jwt-simple": "^0.5.6",
