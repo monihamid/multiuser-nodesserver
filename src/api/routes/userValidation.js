@@ -59,30 +59,13 @@ export default (server) => {
        method: 'GET',
        path: '/logout',
        config: {
-         auth: {
-           access: {
-           scope: ['admin']
-               }
-         
-         },
-
          tags: ['api'],
-         validate: {
-          //  params: {
-          //  userId: Joi.string().required()
-          //        },
-          failAction: (request, handler, err) => {
-                  throw err;
-                  return;
-        }
-        },
          description: 'Signs a user out and removes their cookie'
        },
        handler: async (request, handler) => {
-         //let userId = request.params.id
          let { id } = request.auth.credentials
-         console.log(id)
-         //let userInfo = request.params.id
+         //console.log(id)
+         
            // Remove users current token in db
            try {
              const update = await userstore.updateUserToken(id, null)
@@ -131,13 +114,6 @@ export default (server) => {
     description: 'Adds a new user in the system'
   },
   handler: async (request, handler) => {
-    console.log('========')
-      console.log(request.auth)
-  //   if (!request.auth.credentials) {
-  //     return `Authentication failed due to: ${request.auth}`;
-  //     console.log('========')
-  //   console.log(request.auth)
-  // }
           let {email, firstName, lastName, username, password, scope} = request.payload
           email= email.toLowerCase()
      
@@ -166,19 +142,3 @@ export default (server) => {
  }
 //https://www.npmjs.com/package/boom
 
-// config: {
-//   auth: false,
-//   tags: ['api'],
-//   validate: {
-//    payload: {
-//      email: Joi.string().email(),
-//      password: Joi.string().required(),
-//      rememberMe: Joi.boolean()
-//    },
-//    failAction: (request, handler, err) => {
-//            throw err;
-//            return;
-//  }
-//  },
-//   description: 'Signs a user to Multiuser server'
-// },

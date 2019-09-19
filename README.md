@@ -30,3 +30,5 @@
    - npm i hapi-swagger inert vision -s
 ### add auth
    - npm install --save hapi-auth-jwt2 aguid  inside src folder
+   - add security: [{ 'jwt': [] }], in Hapi swager plugin options
+   - Fix expirity time
