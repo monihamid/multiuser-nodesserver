@@ -19,21 +19,8 @@ export let server
 //let plugins;
 //let defaultRoutes = path.resolve(__dirname, '../routes')
 let defaultRoutes = path.resolve(__dirname, '../../api/routes')
-//let defaultRoutes = path.resolve(__dirname, '../../api/routes')
-//let routes = [];
 
 
-// fs.readdirSync(__dirname)
-//   .filter(file => file != 'routeFiles.js')
-//   .forEach(file => {
-//
-//     routes = routes.concat(require(__dirname, '../routes' +`${file}`))
-//
-//   });
-
-
-
-//module.exports = routes;
 
 const plugins = [
   {
@@ -70,6 +57,7 @@ plugins.push({
             in: 'header'
           }
         },
+        security: [{ 'jwt': [] }],
         pathPrefixSize: 3
       }
       

@@ -37,18 +37,15 @@ export default (server) => {
          return Boom.unauthorized('User name/email does not exist')
        } else {
          let {authToken, updatedUser} = await authenticateUser(user, password, rememberMe);
-           console.log(authToken)
-            //console.log(updatedUser)
-         //console.log('try block')
+           
         //state need one object so,authToken.token has only token but authToken has sid: token: so
-        //Error: Invalid cookie value: [object Object]
         return handler.response({authToken, updatedUser}).state('access_token', authToken)
       }
       } catch (e) {
         if (e.message === 'hashed fail(password does not match)') {
 
           return Boom.unauthorized('password does not match')
-        //console.log('error block')
+        
       }else {
         // catch database connection fail or datatable doesnot exist error
         console.log(`Log:${e}`)
@@ -60,20 +57,20 @@ export default (server) => {
 //not working
    server.route({
        method: 'GET',
-       path: '/logout/{id}',
+       path: '/logout',
        config: {
          auth: {
-          //  strategy: {
-          //  scope: ['admin']
-          //      }
+           access: {
+           scope: ['admin']
+               }
          
          },
 
          tags: ['api'],
          validate: {
-           params: {
-           userId: Joi.string().required()
-                 },
+          //  params: {
+          //  userId: Joi.string().required()
+          //        },
           failAction: (request, handler, err) => {
                   throw err;
                   return;
@@ -84,18 +81,17 @@ export default (server) => {
        handler: async (request, handler) => {
          //let userId = request.params.id
          let { id } = request.auth.credentials
-         let userInfo = request.params.id
+         console.log(id)
+         //let userInfo = request.params.id
            // Remove users current token in db
            try {
-             const update = await userstore.removeUserToken(userInfo, null)
+             const update = await userstore.updateUserToken(id, null)
              //console.log(update)
-             return handler.response('logout successfull')
+             return handler.response('logout successfull').unstate('access_token')
            } catch (e) {
              console.log(`Log:${e}`)
              return Boom.clientTimeout(`${e}`)
              }
-
-           //return handler.response().unstate('access_token')
          }
      })
 
@@ -103,15 +99,18 @@ export default (server) => {
   method: 'POST',
   path: '/user/add',
   config: {
-    auth: false,
-    // {
-    //   access: {
-    // scope: ['admin']
-    //   }
-    //   },
+    auth: 
+    {
+      access: {
+    scope: ['admin']
+      }
+      },
 
     tags: ['api'],
     validate: {
+      // headers: Joi.object({
+      //   'authorization': Joi.string().required()
+      // }),
       
     payload: {
           email: Joi.string().required(),
@@ -122,17 +121,19 @@ export default (server) => {
           scope: Joi.any().required()
     },
     failAction: (request, handler, err) => {
-      console.log('========')
-      console.log(request.auth)
+      
       throw err;
             
             return;
   }
+  
   },
     description: 'Adds a new user in the system'
   },
   handler: async (request, handler) => {
-  //   if (!request.auth.isAuthenticated) {
+    console.log('========')
+      console.log(request.auth)
+  //   if (!request.auth.credentials) {
   //     return `Authentication failed due to: ${request.auth}`;
   //     console.log('========')
   //   console.log(request.auth)
@@ -141,7 +142,8 @@ export default (server) => {
           email= email.toLowerCase()
      
     try {
-      
+      console.log('========')
+      console.log(request.auth)
       let existUser = await userstore.getByUserEmail(email)
       if (existUser) {
         return Boom.notAcceptable('User alreay exist')

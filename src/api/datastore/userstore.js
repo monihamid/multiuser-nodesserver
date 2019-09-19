@@ -15,12 +15,16 @@ export default {
     return db('Users').where({email}).first()
         .select('id', 'firstName', 'lastName', 'email', 'scope')
   },
-  updateUserToken: (id, authToken) => {
-  return db('Users').where({ id }).update({authToken}).returning('*')
+  removeUserToken: (id, authToken) => {
+  return db('Users').where({ id: id }).update({'authToken': authToken}).returning('*')
 },
-removeUserToken: (id, authToken) => {
+
+updateUserToken: (id, authToken) => {
 return db('Users').where({id}).update({authToken}).returning('*')
 },
+// updateDriverApproval: (userId) => {
+//   return db('Drivers').where({userId}).update({'approved': false})
+// },
 createUser: async ({email, firstName, lastName, username, password, scope, createdBy}) => {
   /** createdBy is reserved for future use */
   if (scope === undefined || scope === '') {
