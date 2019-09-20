@@ -118,13 +118,17 @@ export default (server) => {
           email= email.toLowerCase()
      
     try {
-      console.log('========')
-      console.log(request.auth)
+      // console.log('========')
+      // console.log(request.auth)
       let existUser = await userstore.getByUserEmail(email)
       if (existUser) {
         return Boom.notAcceptable('User alreay exist')
       } else {
-        request.payload.createdBy = 'admin@admin.com'          //request.auth.credentials.id
+        //let { id } = request.auth.credentials
+        //console.log(id)
+        const userEmail = await userstore.getEmailByUserId(request.auth.credentials.id)
+        console.log(userEmail)
+        request.payload.createdBy = userEmail.email       //request.auth.credentials.id
         let user = await userstore.createUser(request.payload)
         return handler.response( 'new user created')
    }

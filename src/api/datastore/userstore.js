@@ -8,6 +8,14 @@ export default {
        // .whereRaw(`LOWER(email) LIKE ?`, [`${email.toLowerCase()}`])
 
  },
+ getEmailByUserId: (id) => {
+  return db('Users')
+  .select('email').where({id}).first()
+  //return db('Users').where({id, id})
+         //.select('email')
+      // .whereRaw(`LOWER(email) LIKE ?`, [`${email.toLowerCase()}`])
+
+},
   checkUserExist: (id) => {
       return db('Users').where({id}).first()
     },
