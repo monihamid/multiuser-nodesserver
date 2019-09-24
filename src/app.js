@@ -7,22 +7,24 @@ const {NODE_ENV} = require ('./core/config');
 const path = require('path');
 //const {Client} = require('pg');
 
-//Fred's way
-let combineApps = []
-process.argv.forEach(function (val, index, array) {
-  if (index >= 2) {
-    combineApps.push(val)
-    console.log(`Migration result: ${val}`)
-  }
-});
+//Fred's way for micro service if multiple service are divided into apps older 
+// let combineApps = []
+// process.argv.forEach(function (val, index, array) {
+//   if (index >= 1) {
+//     combineApps.push(val)
+//     //print all the app paths
+//     console.log(`Migration result: ${val}`)
+//   }
+// });
 
 (async () => {
+  //logger.info(`Starting application. ENV ${NODE_ENV}. DB ${JSON.stringify(config.database)}`)
 
-  // await db.migrate.latest([config.default.database])
-  //     .then(function() {
-  //         console.log(`Running seeds`)
-  //         db.seed.run();
-  // })
+  await db.migrate.latest ()               //([config.default.database])
+      .then(function() {
+          console.log(`Running seeds`)
+          db.seed.run();
+  })
   //await hapi.start(combineApps.map(app => path.resolve(__dirname, `./apps/${app}/src/routes`)))
   await hapi.start()
   console.log(`Starting server`)
