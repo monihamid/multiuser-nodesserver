@@ -43,6 +43,10 @@ createUser: async ({email, firstName, lastName, username, password, scope, creat
   password = await saltedPassword(password)
   return db('Users').insert({email, firstName, lastName, username, password, scope, createdBy}).returning('id')
 },
+addSchool: async ({schoolId, schoolName, contactPerson, streetNo, streetName, postalcode, city, province, country,
+  schoolPhone, schoolEmail, createdBy }) => {
+  return db('Schools').insert({schoolId, schoolName, contactPerson, streetNo, streetName, postalcode, city, province, country, schoolPhone, schoolEmail, createdBy}).returning('schoolId')
+}
 
 
 }

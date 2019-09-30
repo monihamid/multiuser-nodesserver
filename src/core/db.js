@@ -10,19 +10,3 @@ let db = knex(config.default.database)
 
 module.exports.db = db;
 
-//let connection = {port:config.default.hapi.port, host: config.default.hapi.host, routes: {cors: {origin: ['*'], credentials: true}}}
-
-//let connection = {port:config.default.hapi.port, host: config.default.hapi.host, routes: {cors: {origin: ['*'], credentials: true}}}
-// var config      = require('../knexfile.js');
-// var env         = 'development';
-// var knex        = require('knex')(config[env]);
-//
-// module.exports = knex;
-//
-// knex.migrate.latest([config]);
-// var db  = require('./db');
-// db.knex()
-
-//var config = require('./knexfile');
-
-//module.exports = require('knex')(config);

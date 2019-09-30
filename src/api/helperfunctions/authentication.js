@@ -1,4 +1,4 @@
-import userstore from '../../api/datastore/userstore'
+import userstore from '../datastore/userstore'
 import aguid from 'aguid'
 import jwt from 'jwt-simple'
 import config from '../../core/config'

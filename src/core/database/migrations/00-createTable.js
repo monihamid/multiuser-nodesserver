@@ -56,9 +56,18 @@
  }),
 
    knex.schema.createTable('Schools', function (table) {
-   table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
+   //table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'))
+   table.string('schoolId').primary().notNullable()
    table.string('schoolName').notNullable()
-   table.string('schoolAddress')
+   table.string('contactPerson')
+   table.string('streetNo').notNullable()
+   table.string('streetName')
+   table.string('postalcode')
+   table.string('city')
+   table.string('province')
+   table.string('country')
+   table.string('schoolPhone')
+   table.string('schoolEmail')
    table.timestamp('createdAt').notNullable().defaultTo(knex.fn.now())
    table.timestamp('modifiedAt').notNullable().defaultTo(knex.fn.now())
    table.string('createdBy')

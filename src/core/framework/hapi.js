@@ -11,6 +11,7 @@ const HapiSwagger = require('hapi-swagger');
 const path = require('path')
 const Pack = require('../../../package')
 import {setupAuth} from './setauth'
+//const setupAuth = require('./setauth')
 //const routesFolder = __dirname + '../routes/routeFiles';
 //const routeFile = require('../routes/auth');
 

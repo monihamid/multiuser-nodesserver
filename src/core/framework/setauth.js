@@ -1,4 +1,5 @@
 //const jwt = require('hapi-auth-jwt2')
+//import jwt from 'hapi-auth-jwt2'
 import jwt from 'jwt-simple'
 //import {config} = require( '../config')
 import aguid from 'aguid'
@@ -49,7 +50,7 @@ server.auth.default('jwt')
 export function generateToken (user, exp) {
   exp = 24 * 60 * 60 
   const sid = aguid()
-    exp = (Math.floor(new Date().getTime()) + exp) / 1000
+    exp = (Math.floor(new Date().getTime()) + exp)        // / 1000
     //const exp = 24 * 60 * 60 
   // generate a new jwt token expiring in 24 hours
   return {sid,
@@ -62,14 +63,7 @@ export function generateToken (user, exp) {
     }, config.default.auth.jwtSecret)}
 }
 
-// export function generateToken (user, rememberMe, exp) {
-//
-//   const forever = 365 * 30 * 7 * 24 * 60 * 60 * 1000
-//   let cookieOptions = rememberMe ? {ttl: forever} : {ttl: exp}
-//
-//
-//   return generateUserToken(user, cookieOptions.ttl)
-// }
+
 
 export function generateUserToken (user, exp) {
   //exp = (Math.floor(new Date().getTime()) + exp) / 1000
@@ -77,11 +71,8 @@ export function generateUserToken (user, exp) {
   let jwt = generateToken(user, exp)
   return jwt.token
 }
-// export function generateUserToken(user, exp){
-//   let jwt = generateToken(user, exp);
-//   return jwt.token;
-// }
-//365 * 30 * 7 * 24 * 60 * 60 * 1000
+
+
 // export function generateToken(user, rememberMe) {
 //   const forever =  24 * 60 * 60 * 1000
 //   const exp = 24 * 60 * 60 
