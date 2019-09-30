@@ -32,3 +32,4 @@
    - npm install --save hapi-auth-jwt2 aguid  inside src folder
    - add security: [{ 'jwt': [] }], in Hapi swager plugin options
    - Fix expirity time
+   - nodemon: nodemon --exec

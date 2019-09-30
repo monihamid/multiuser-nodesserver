@@ -15,8 +15,8 @@ env_variables:
   INSTANCE_CONNECTION_NAME: nodeserverm:us-central1:database-for-nodeserver
   PROJECT_ID: nodeserverm
  # [END env]
- network:
+network:
  instance_tag: production
  name: default
- beta_settings:
- cloud_sql_instance: nodeserverm:us-central1:database-for-nodeserver
+beta_settings:
+  cloud_sql_instances: nodeserverm:us-central1:database-for-nodeserver

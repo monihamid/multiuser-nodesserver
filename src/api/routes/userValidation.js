@@ -1,7 +1,7 @@
 const Joi  = require('joi')
 const Boom = require ('@hapi/boom')
 import userstore from '../datastore/userstore'
-import helperfunctions from '../helperfunctions/authentication'
+//import helperfunctions from '../helperfunctions/authentication'
 import {authenticateUser} from '../helperfunctions/authentication'
 //import failAction from '../framework/hapi'
 

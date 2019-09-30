@@ -1,12 +1,9 @@
-
-//const Joi  = require('joi')
-import Joi from 'Joi'
-//import Joi from 'multi-user-core/joi'
-//import {config} from 'multi-user-core/config'
-//import config from '../../core/config'
+const Joi  = require('joi')
 const Boom = require ('@hapi/boom')
+//import helperfunctions from '../helperfunctions/authentication'
+//import {authenticateUser} from '../helperfunctions/authentication'
 import userstore from '../datastore/userstore'
-import {generateSchoolID} from '../helperfunctions/schoolfunc'
+import {generateSchoolID} from '../helperfunctions/schoolFunc'
 //import helperfunctions from '../helperfunctions/authentication'
 //import {authenticateUser} from '../helperfunctions/authentication'
 
@@ -55,7 +52,7 @@ export default (server) => {
            
           try {
             
-             let schoolId =  await generateSchoolID(schoolName, streetNo, streetName)
+            let schoolId =  await generateSchoolID(schoolName, streetNo, streetName)
             let schoolIdexist; //check if the school already in the system from database 
              if (schoolIdexist) {
               return Boom.notAcceptable('SchoolID alreay exist')
