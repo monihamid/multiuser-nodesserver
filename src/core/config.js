@@ -1,10 +1,11 @@
-const jsonMerger = require('json_merger')
+//const jsonMerger = require('json_merger')
+import jsonMerger from 'json_merger'
 //const knex  = require('knex');
 //const pg  = require('pg');
 
 
  const config = {
- //exports.config = {
+ 
   default: {
     database: {
       client: 'pg',
@@ -54,13 +55,31 @@ const jsonMerger = require('json_merger')
       // host: 'http://192.1.2.179:4000/api/v1'
     },
 
+  },
+  
+  production: {
+    letsencrypt: { 
+      enabled: false
+    },
+    ssl:{
+      enabled: true
+    },
+    database: {
+      debug: false
+    },
+    hapi: {
+      swagger: {
+          host: process.env.SWAGGER_HOST || undefined,
+          schemes: ['https']
+      }
+    },
+    // label: {
+    //   host: 'https://nodeserverm.appspot.com/api/v1'
+    // },
   }
-  //}
 }
 
-//const environment = process.env.ENVIRONMENT || 'development'
-//module.exports.environment = environment  // not sure wher to use
-//module.exports.config = jsonMerger.merge(config.default)
+// this is duplicate of export default
 module.exports.config = config;
 //module.export default jsonMerger.merge(config.default, config[NODE_ENV] || {})
 //module.exports.hapi = hapi;
@@ -68,9 +87,9 @@ module.exports.config = config;
 
 
 
-
-
-//export default jsonMerger.merge(config.default, config[NODE_ENV] || {})
+//this set environment for could server
+export const NODE_ENV = process.env.NODE_ENV || 'local'
+export default jsonMerger.merge(config.default, config[NODE_ENV] || {})
 
 
 //https://timonweb.com/posts/how-to-enable-es6-imports-in-nodejs/    ES6 Imports
